@@ -25,7 +25,6 @@ export class ConnectivityService {
       this.error.set(null);
       return connected && reachable;
     } catch {
-      this.error.set('Unable to check network status.');
       return false;
     }
   }

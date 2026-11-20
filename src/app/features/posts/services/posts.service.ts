@@ -63,15 +63,11 @@ export class PostsService {
     } catch {
       this.isOfflineMode.set(true);
       const fallback = cached.length > 0 ? cached : await this.repository.getAll();
-      if (fallback.length > 0) {
+      if (fallback.length > 0) 
         this.posts.set(fallback);
-        this.error.set('Unable to reach server. Showing cached posts.');
-      } else if (useMockFallback) {
+      if (useMockFallback) 
         this.posts.set(MOCK_POSTS);
-        this.error.set('Unable to reach server. Showing mock posts.');
-      } else {
-        this.error.set('Unable to load posts. Check your connection and try again.');
-      }
+
     } finally {
       this.loading.set(false);
       this.refreshing.set(false);
