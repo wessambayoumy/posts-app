@@ -1,82 +1,28 @@
-import { Component, inject, signal } from '@angular/core';
-import { Pressable, SafeAreaProvider, SafeAreaView, Text, View } from '@ng-native/components';
-import { StatusBar } from '@ng-native/device';
+import { Component } from '@angular/core';
+import { RouterLink, RouterOutlet } from '@angular/router';
+import { Pressable, Text, View } from '@ng-native/components';
 
-/**
- * Element names are lowercase, and that is load-bearing rather than style: an uppercase name such
- * as <View> matches no component's selector, and the Metro transform fails the build on it.
- */
 @Component({
-  imports: [Pressable, SafeAreaProvider, SafeAreaView, Text, View],
   selector: 'app-root',
+  imports: [RouterLink, RouterOutlet, Pressable, Text, View],
+  host: { style: 'flex: 1' },
   template: `
-    <safe-area-provider>
-      <safe-area-view class="screen">
-        <view class="body">
-          <text class="title">Angular, natively</text>
-          <text class="hint">Real native views. React is never in the render path.</text>
-
-          <pressable accessibilityRole="button" class="button" (press)="count.set(count() + 1)">
-            <text class="label">Tapped {{ count() }} times</text>
+    <view class="flex-1 bg-slate-100">
+      <view class="flex-row items-center justify-between pt-10 pb-3 px-4 bg-white border-b border-slate-200">
+        <text class="text-lg font-bold text-slate-900">Posts App</text>
+        <view class="flex-row items-center gap-2">
+          <pressable routerLink="/" class="px-3 py-1.5 rounded-lg bg-slate-900">
+            <text class="text-sm font-medium text-white">Posts</text>
+          </pressable>
+          <pressable routerLink="/favorites" class="px-3 py-1.5 rounded-lg bg-slate-200">
+            <text class="text-sm font-medium text-slate-800">Favorites</text>
           </pressable>
         </view>
-      </safe-area-view>
-    </safe-area-provider>
-  `,
-  styles: `
-    :host {
-      flex: 1;
-    }
-    .screen {
-      flex: 1;
-      background-color: #f5f5f7;
-    }
-    .body {
-      flex: 1;
-      justify-content: center;
-      gap: 12px;
-      padding: 24px;
-    }
-    .title {
-      color: #101014;
-      font-size: 28px;
-      font-weight: 700;
-    }
-    .hint {
-      color: #5f5f6b;
-      font-size: 15px;
-    }
-    .button {
-      align-items: center;
-      margin-top: 8px;
-      padding: 14px;
-      border-radius: 10px;
-      background-color: #3b6ef5;
-    }
-    .label {
-      color: #ffffff;
-      font-size: 16px;
-      font-weight: 600;
-    }
-    @media (prefers-color-scheme: dark) {
-      .screen {
-        background-color: #101014;
-      }
-      .title {
-        color: #ffffff;
-      }
-      .hint {
-        color: #8b8b96;
-      }
-    }
+      </view>
+      <view class="flex-1">
+        <router-outlet />
+      </view>
+    </view>
   `,
 })
-export class App {
-  protected readonly count = signal(0);
-
-  constructor() {
-    // Dark status bar icons in light mode and light ones in dark mode. Unclaimed, Android keeps
-    // light icons whatever the scheme.
-    inject(StatusBar).set({ style: 'auto' });
-  }
-}
+export class App {}

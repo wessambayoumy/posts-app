@@ -1,11 +1,15 @@
-import { render, screen, userEvent } from '@ng-native/testing';
-import { expect, test } from 'vitest';
-import { App } from './app.ts';
+import { provideNativeRouter } from '@ng-native/router';
+import { render } from '@ng-native/testing';
+import { describe, expect, it } from 'vitest';
+import { App } from './app';
+import { routes } from './app.routes';
 
-test('counts taps', async () => {
-  await render(App);
+describe('App', () => {
+  it('renders the root component', () => {
+    const view = render(App, {
+      providers: [provideNativeRouter(routes)],
+    });
 
-  await userEvent.setup().press(screen.getByRole('button', { name: 'Tapped 0 times' }));
-
-  expect(screen.getByText('Tapped 1 times')).toBeTruthy();
+    expect(view).toBeTruthy();
+  });
 });
